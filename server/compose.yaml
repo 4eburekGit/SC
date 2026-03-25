@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16.13
+    container_name: postgres
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: kottsov
+      PGUSER: kottsov
+      POSTGRES_PASSWORD: 1417
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - localnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kottsov -d scserverdata"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  # server:
+  #  build: .
+  #  container_name: server
+  #  ports:
+  #    - "8000:8000"
+  #    - "3030:3030"
+  #  depends_on:
+  #    postgres:
+  #      condition: service_healthy
+  #      restart: true
+  #  environment:
+  #    DB_HOST: postgres
+  #    DB_PORT: 5432
+  #  networks:
+  #    - localnet
+volumes:
+  db-data:
+networks:
+  localnet:
+    driver: bridge

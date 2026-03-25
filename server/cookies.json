@@ -1,0 +1,92 @@
+{
+    ".sergiodemo.com": [
+        {
+            "unix_timestamp": 1774382721,
+            "timestamp": "2026-03-24T23:05:21.582610+03:00",
+            "cf_clearance": "9QDbq7PCuUs75sgc1_C__Wn.yXqWqMPSlucbefCSe9k-1770625493-1.2.1.1-vlpQDTbUwHD65E8MBjNgvH0VlkuEqT5zC.BtgTvxkQmWl9pJanwdTntmnkYCPZ.Hy.uSvp30UPqPAj6xN7Jx_MsQu3.T2x6ZtZny23xVYxhgEGJeTmZrSRMm3p9qBDYq3aowtWOUBEUtP2OD2XD7pXC0HB_xXNqDDe5sqjgAOOa6Z7MDrLs4XWAirov.dWIEba5d29qHNQZdDTHg3w0DUDYRyciePHC2ChGhwjVxqp4",
+            "cookies": [
+                {
+                    "name": "cf_clearance",
+                    "value": "TKF2GEfgmODFDiG_Ui1_xzw5H.iUGoc1da3hfaBF8Gs-1774382721-1.2.1.1-80AN827sOtxCOsnA1J6a12uJ0TwKkvEFvKjtfkuE4MassHIiSR3R.lRRDJ2lmbAJaKDlwsvR8XCvnVhs4_esyl50L8jylkEOPkCfzOlpk1OLQqyp2x5eOopy9yZcVNNwnNvjoy4lhtqPulIP5CFp7PmRm2nwTBDi2zHd4KNW5VxQtuJ5SCqshpm4F0V5bR7kLv8ut.Cm8qjWceyW8ujRvKQSIY6pWES0SRJxZjHvTKI",
+                    "domain": ".sergiodemo.com",
+                    "path": "/",
+                    "size": 310,
+                    "httpOnly": true,
+                    "secure": true,
+                    "session": false,
+                    "priority": "Medium",
+                    "sameParty": false,
+                    "sourceScheme": "Secure",
+                    "sourcePort": 443,
+                    "expires": 1805918721.58261,
+                    "sameSite": "None",
+                    "partitionKey": {
+                        "topLevelSite": "https://sergiodemo.com",
+                        "hasCrossSiteAncestor": false
+                    }
+                },
+                {
+                    "name": "__cf_bm",
+                    "value": "J7Xb5YpQvrLpd1j44TByFI_vHs5tc1Xlyir8N397Gx0-1774382721.7189784-1.0.1.1-yB99Tl8Pbol5A518o5aV7RcuqCWUoERbCLfS_PLtR4DBgfbAJyPsQ1PNSguq0NNmRiefZhrJgBz1_kmw3djK5CC4NZw1oZ6K2BDdFrTx1ZFFmJeKp5WDWVPMF5iHG.Bf",
+                    "domain": ".sergiodemo.com",
+                    "path": "/",
+                    "size": 206,
+                    "httpOnly": true,
+                    "secure": true,
+                    "session": false,
+                    "priority": "Medium",
+                    "sameParty": false,
+                    "sourceScheme": "Secure",
+                    "sourcePort": 443,
+                    "expires": 1774384521.827945
+                }
+            ],
+            "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:146.0) Gecko/20100101 Firefox/146.0",
+            "proxy": null
+        },
+        {
+            "unix_timestamp": 1774383168,
+            "timestamp": "2026-03-24T23:12:48.146173+03:00",
+            "cf_clearance": "5p8QAU9kXq7rmSqiuDYK5BJNCnO60BtxxTAG_npWmDU-1774383168-1.2.1.1-K1dgKDnc5Ef56smKc_2tIE4_WJsZ4O5xLpTO4liR2_cAExvGGMciR_BVAyAmH_KTKVT6FmynbEwU0NqwHgcu6t4WITTn8sF5Qai6smcqgd3qS2duzG9iuTVsxRqTy6AeJHQevS87MHhn9krSBUb906xhhVM3m0wC171sLZe8vT.qa_.KOhFaS9O9fWQ0vSswYC01yFgo7uA2XIqRxVb.yl2fi3M2MvWMJU19xwVErFFO2TKdyeVjoHzGtUV.iEux",
+            "cookies": [
+                {
+                    "name": "cf_clearance",
+                    "value": "5p8QAU9kXq7rmSqiuDYK5BJNCnO60BtxxTAG_npWmDU-1774383168-1.2.1.1-K1dgKDnc5Ef56smKc_2tIE4_WJsZ4O5xLpTO4liR2_cAExvGGMciR_BVAyAmH_KTKVT6FmynbEwU0NqwHgcu6t4WITTn8sF5Qai6smcqgd3qS2duzG9iuTVsxRqTy6AeJHQevS87MHhn9krSBUb906xhhVM3m0wC171sLZe8vT.qa_.KOhFaS9O9fWQ0vSswYC01yFgo7uA2XIqRxVb.yl2fi3M2MvWMJU19xwVErFFO2TKdyeVjoHzGtUV.iEux",
+                    "domain": ".sergiodemo.com",
+                    "path": "/",
+                    "size": 331,
+                    "httpOnly": true,
+                    "secure": true,
+                    "session": false,
+                    "priority": "Medium",
+                    "sameParty": false,
+                    "sourceScheme": "Secure",
+                    "sourcePort": 443,
+                    "expires": 1805919168.146173,
+                    "sameSite": "None",
+                    "partitionKey": {
+                        "topLevelSite": "https://sergiodemo.com",
+                        "hasCrossSiteAncestor": false
+                    }
+                },
+                {
+                    "name": "__cf_bm",
+                    "value": "XT90YnfL9TV8EV8ZiNh9Ca830S4C0Hy8Gbrzn3aAZKY-1774383168.1382568-1.0.1.1-eK01__H2uncQedH9LsGUjX7NjuP2ITZ91MumTTlFfN.8TKrvrbEYDsFrUPT43Y3kHITjtlbyT8oKcMSS8ati_0P5NOBXRcWo7QG1wDyr0AFlXzCUWM8u1zzpAI6NLbfI",
+                    "domain": ".sergiodemo.com",
+                    "path": "/",
+                    "size": 206,
+                    "httpOnly": true,
+                    "secure": true,
+                    "session": false,
+                    "priority": "Medium",
+                    "sameParty": false,
+                    "sourceScheme": "Secure",
+                    "sourcePort": 443,
+                    "expires": 1774384968.146245
+                }
+            ],
+            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+            "proxy": null
+        }
+    ]
+}
