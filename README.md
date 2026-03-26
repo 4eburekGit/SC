@@ -10,6 +10,7 @@
 2. Когда возникает необходимость обновить данные, как администратор я хочу иметь возможность запросить новые данные с внешнего API и затем увидеть изменения в клиенте.
 3. Когда я как пользователь не могу получить изображение ввиду его отсутствия или недоступности внешнего API, я хочу увидеть предупреждение об этом и увидеть остальные данные об экспонате.
 4. Когда у меня как пользователя нет доступа к клиенту, я хочу иметь возможность опрашивать сервер используя формат REST API и получать в ответ сжатую информацию об экспонате.
+
 Для экономии дискового места изображения должны загружаться на сервер только если с одного из клиентов поступил запрос на данное изображение. Период хранения изображений с момента последнего запроса 5 лет, после чего те удаляются.
 Разработка архитектуры и детальное проектирование:
 Рассчёт нагрузки:
@@ -18,9 +19,11 @@
 1. R/W нагрузка: Основная нагрузка - чтение. Запись происходит единожды при загрузке/обновлении выборки произведений, а также в одиночных случаях при загрузке новых изображений. Чтение происходит в разы чаще, при каждом запросе данных с сервера, считаем соотношение 10/1. При этом каждое чтение провоцирует небольшое обновление данных в базе данных (обновление данных о последнем запросе экспоната), но это можно оставить на используемую базу данных - PostgreSQL.
 2. Объёмы трафика: Ответы с сервера имеют 2 вида: данные и изображения. Данные представляют собой небольшой json-файл с id, названием, описанием и автором произведения, в среднем 1 такой файл занимает 3 КБ. Изображения представляют собой изображение в формате .jpg в разрешении 843х579 (стандартное разрешение изображений у API с изображениями), в среднем 1 изображение занимает 80 КБ. При единовременном числе активных пользователей ~20 тыс., считая что нагрузка в основном чтение, предположим, что частота запросов изображений и данных с сервера ~20/с. Это даёт нам объём трафика в ~1.66 МБ/с, или ~13.3 МБит/с. Трафик на запись предположим около 2/с (на практике число запросов на запись будет падать пропорционально числу уже загруженных изображений на сервер), необходимо получить изображение со средним объёмом 80 КБ, что даёт 160 КБ/с трафика на вход. Во входной трафик также учтём запросы изображений (в среднем по 1 КБ), 20 КБ/с в сумме. Итого на вход сервер будет расходовать ~1.5 МБит/с, что в сумме даёт объём трафика ~15 МБит/с
 3. Объёмы дисковой системы: Учитывая средние размеры изображения и общее число изображений в ~119 тыс. для хранения всех изображений потребуется ~10 ГБ. Для базы данных и переферии, а также чтобы оставить резервное место на диске стоит выделить ещё 10 ГБ. Возмьмём 2 резервные копии, что подразумевает 20 Гб/копию, 60 ГБ в сумме на всех серверах.
+
 Первые 2 диаграммы из подхода С4:
 1. Контекст: //www.plantuml.com/plantuml/png/dPHTJzDW5CVl-HHrLvYG40cNnc0MuakCJZQloTYABccxfUiCtcshYoJJJBtH60CQutq1AzrWvIkSvnlvVqwVRkrQGBs2zPppVtxdvPoDjbErdOvfBDreM3MZKzUrsyNrrUBwTh5fEVgUSoVNK6rOkfrdCbjDIxSGjLJIxNRJMkwqTNj5Az0XXNGctj8f_XwJ9_haozy5QViiUdGHsuLBlkXhDA4p2k0q5Vt2pLYjMZSRbWnvJx_e7FOf1Q8d-gBBag7eik0Fkf1Vw1YI8vR32-m8mNEyD8RaKlbLsz7DvPhH0B4C-v9u4h_lFNkWuHb8QC3Bmnz1HgaWpPTHfj_nO1TEleBv1lSU0_bGysCaAUs1Vog6v6iKQ0WvnPU00QNZc86FXQioa1vJ_BzFK-cbgOn2yOO_J2HQGbKCvdGxTKdo0IOyaVQHXfzSBOXai48wqiGxcgWEJJbrJmmOE80lLmk1hvb0DK4CfV5KHhFoR_8PSRnQQhQTvxPUVleesO7TxNRDhhPQKG4F43MGDT2AHhDJtpMgjbv86HWqOOpptDxSSvPhB-ocsUYOd34FXWiKT6FMp72cuoLLBXb557cqC0SkIiuPHPQGHz25qKkZL5kDMr2zMy8WdIkCqVzKtB-wtddLPZP49wS6mwy19WEv9f4-9ePhBDruv7A5vUfbqyXrPV1Gz3CR2UE0wwdnsCFCTNJbN6pfXZeSy-KyZ1pmjCVx7iWzPAN5QecXsbv8IILrDEOR-fKzWwXsV4HEaEjyRSbZwYEvBcAOMfULDEsGCu33YUXoVoSKfFnH_LZ8pUnTPOQeqamm7cHBbdaQsIvEf4z1TdhuBWH9LozxWKHleGQIy7wbKYglRcsMAmeq1bIJJPyKaIVsuuxyvKHV9xzsgNp-RV4vlwkEaYjppEvY2Y95aRnBbyDC88QsBnu2H3miFtci4aj99IvKti6vzaufvZnfBbpcLEO79rFTgSyof41Erx_qqel6EJhg6xfLxvZ67m00
 2. Контейнеры: //www.plantuml.com/plantuml/png/hLNTRXj56BttKmo-SgIaLgEMAuGAIu4616atN4SRUq9NMg-j_MaQ8QHuquX60K8a9BX0xGKli7NgPkCwzYjyyqQSRoOxyOzDGQginBlppPnplfyvlXSdNfIahQ3oWHysWhGfnKVEdRfpPzjfXubycdoyCE3veOmMXLgTTYX3dAfioYXkXxKqbj6ggD9B6j5RzJDTuBj7kSgep-zLZlsfkZGku-gG-YeJDA2tL63JbSggAoMQrspv8H_vZLxJ4F4hAbHNPUf0GuxKWGRycyQyGZr0dceuCF16PXs2wHAG5Pj8hH7u48sJhkFeHqPvc8Yxuell7jJfT-hZ_809Q0n19tGfc9lXr85w1j1BrHMG1BefvPI3oF9iVzfEmwONxTTSnvNH4rIcMZvLLyGF5I7S_JYHhLfieiA6MT26zyGJjOtFlXBhTrVg_BO6ML10FVw_Al3KfvpPkOpgLtLC1QG-kkzkxQQ1-6JpmIfqpnQRXfpGb6o4Xn1kvJHsj-D6v7KwMfFp-PeJI2_omePSSysw5hYvdpnkXtNJQmZuYN9TV1ot1y03qW4LjbmZUgMEQ8JNN3X1Estk1buaGV_ZH8TscepVZfFl8nbNRvxTXr-Bsn_MwGnK5m1W5BhY7gaZ98ib6aF9CUU5Jyw4FN2g33lr168LsNBw8zDHkiGILxNFGs8gi7t_QL9hF8xQBJzjSGck7vUDBqRjr2Q8EJGbrJDQe2nwdB1oJYFTDFLSwokmczkAclgTP0qReH0Vn83rXd8jVBf84_eI6VCCtuJ5pdx7YsF1WNzNEe38WK0qnoHdLZdVef6PBjCosojUNYh4w_YtGOUlMp0Nlt5BDbFcnm0A6eBt0eYdcDSZlgKwyMoYSzJNH4BzGWCZM7Skmz-HO1KzxC5kTSR72YpodhBPK8oS3kSKhKF0tjxUZQAwx_kxfIpL5Nnhc5ThUbCsX5rcNWcoDzF5LqmTgpEwcgv6vP4ChhtFcWkzDEBC8E2ve9wv8NC4weI5mNm01QJIzwnj0EmllRSmhgUTy5nCsW7bkbQl-6AeayKNGylXu5Ztz5mTS7EurLFxKV4Iw70gm2AthCWoqTXgVA6oMIUUeqQ-uBUEmMNlBocvJcWyQIwpSwEwCpLWXLzkRMswTNP18zIww_MSqXz64MYUsvxyfu7ilmj-VJdyed434QDpx3MlQBjuXhU1AG7tXtESlaXp8gPKJ7ZtSZ6JfinzoV0wDjNRSB_zfcpm99HrmyM-yWvxjveNGRDVlNzOsuyNzYZxpjB3je8xJLiuAdXe_y-8vEQMu7SAgFTas4nRmJy0
+
 Контракты API:
 Используется подход REST, реализован только запрос GET, остальные запросы запрещены (405)
 Структура запроса:
@@ -28,12 +31,15 @@
 Опциональные параметры:
 1. id - идентификатор объекта (в рамках API музея), работает только с mode=0, иначе игнорируется
 2. page - какую из страниц по 100 элементов запрашиваем, работает только с mode=1, иначе игнорируется. Страница содержит основные данные об экспонате, но не его изображение
+
 Обязательные параметры:
 1. mode - режим работы, 0 - работа с отдельными объектами, 1 - с данными в целом
-   
+
 /api/server?mode=1 - возвращает первую страницу из 100 экспонатов
-/api/server?mode=0&id=<id> - возвращает изображение конкретного экспоната с id = <id>
-/api/server?mode=1&page=<page> - возвращает <page>-ую страницу из 100 элементов
+
+/api/server?mode=0&id={id} - возвращает изображение конкретного экспоната с id = {id}
+
+/api/server?mode=1&page={page} - возвращает {page}-ую страницу из 100 элементов
 
 Иные комбинации вызывают ошибочный ответ с кодом 400
 
