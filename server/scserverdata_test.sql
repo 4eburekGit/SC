@@ -6,7 +6,7 @@
 
 -- Dumped from database version 16.11 (Ubuntu 16.11-0ubuntu0.24.04.1)
 -- Dumped by pg_dump version 16.11 (Ubuntu 16.11-0ubuntu0.24.04.1)
-
+BEGIN TRANSACTION;
 -- Started on 2026-03-25 15:43:32 MSK
 
 SET statement_timeout = 0;
@@ -57,7 +57,7 @@ COPY public.chicagodata (id, title, date_display, description, dimensions, mediu
 
 
 -- Completed on 2026-03-25 15:43:32 MSK
-
+COMMIT;
 --
 -- PostgreSQL database dump complete
 --
